@@ -3,7 +3,7 @@ Setup Slack workspace and create an app (if you're contributing, this serves as 
 1. [Create your app](https://api.slack.com/apps)
 1. Click the deploy button below and follow the instructions (you can skip pipeline part)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/crownheightsaid/slack-app)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/NotMeUES/mutual-aid-app)
 
 Get your heroku app URL for slack:
 1. When Heroku finishes you can click `View` to go to the URL

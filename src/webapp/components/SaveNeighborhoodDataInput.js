@@ -47,7 +47,9 @@ const SaveNeighborhoodDataInput = ({ neighborhoodData, className }) => {
   return (
     <Box className={className}>
       <form onSubmit={handleAddToAirtable} autoComplete="off">
-        <Typography variant="h6">Update a request with the above address</Typography>
+        <Typography variant="h6">
+          Update a request with the above address
+        </Typography>
         <TextField
           id="request_code"
           name="request_code"
@@ -79,8 +81,7 @@ const SaveNeighborhoodDataInput = ({ neighborhoodData, className }) => {
       </form>
       {loading && <CircularProgress />}
       {!error && data && data.success && (
-        <Typography variant="caption" className={classes.successMessage}
-        >
+        <Typography variant="caption" className={classes.successMessage}>
           Successfully updated request
         </Typography>
       )}

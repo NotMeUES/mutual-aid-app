@@ -108,7 +108,7 @@ export default function NeighborhoodFinder() {
       <Box className={classes.formRoot}>
         <Box>
           <Typography className={classes.text} variant="h4">
-            Crown Heights Neighborhood Finder
+            Not Me, UES Neighborhood Finder
           </Typography>
           <Typography className={classes.text} variant="body1">
             Enter an address and we will look up cross streets and the
@@ -173,7 +173,7 @@ export default function NeighborhoodFinder() {
             <TextField
               disabled
               id="zone"
-              label="Crown Heights Volunteer Zone"
+              label="Volunteer Zone"
               value={data.quadrant || "Unavailable"}
               variant="outlined"
               className={classes.field}
@@ -194,7 +194,7 @@ export default function NeighborhoodFinder() {
             <Typography className={classes.text} variant="body1">
               Error loading. Please try again. If it fails again, let us know in
               &nbsp;
-              <a href="https://crownheightsmutualaid.slack.com/archives/C010AUQ6DFD">
+              <a href="https://not-me-ues.slack.com/archives/C011VMMNX7E">
                 #tech.
               </a>
             </Typography>

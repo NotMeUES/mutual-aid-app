@@ -6,11 +6,11 @@ import ReactMapboxGl, {
   ZoomControl
 } from "react-mapbox-gl";
 import { LngLat, LngLatBounds } from "mapbox-gl";
-import quadrantsGeoJSON from "../../assets/crownheights.json";
+import quadrantsGeoJSON from "../../assets/ues.json";
 import { findBounds } from "../helpers/mapbox-coordinates";
 
 // get all coords in quadrantsGeoJSON to find bounds
-const CROWN_HEIGHTS_BOUNDS = findBounds(
+const BOUNDS = findBounds(
   quadrantsGeoJSON.features.reduce((acc, f) => {
     const lnglats = f.geometry.coordinates[0].map(
       coord => new LngLat(coord[0], coord[1])
@@ -19,9 +19,9 @@ const CROWN_HEIGHTS_BOUNDS = findBounds(
   }, [])
 );
 
-const CROWN_HEIGHTS_CENTER_COORD = new LngLatBounds(
-  CROWN_HEIGHTS_BOUNDS[0],
-  CROWN_HEIGHTS_BOUNDS[1]
+const CENTER_COORD = new LngLatBounds(
+  BOUNDS[0],
+  BOUNDS[1]
 ).getCenter();
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
@@ -44,13 +44,13 @@ const MapboxMap = MAPBOX_TOKEN
 const QuadrantMap = ({ location }) => {
   const lnglat = location && new LngLat(location.lng, location.lat);
   const bounds = lnglat
-    ? findBounds([...CROWN_HEIGHTS_BOUNDS, lnglat])
-    : CROWN_HEIGHTS_BOUNDS;
+    ? findBounds([...BOUNDS, lnglat])
+    : BOUNDS;
 
   return (
     <MapboxMap // eslint-disable-next-line react/style-prop-object
       style="mapbox://styles/mapbox/bright-v9"
-      center={CROWN_HEIGHTS_CENTER_COORD}
+      center={CENTER_COORD}
       containerStyle={{
         height: "350px",
         width: "100%"
