@@ -12,7 +12,6 @@ const {
   neighborhoodFinderUpdateRequestHandler
 } = require("./src/api/neighborhood-finder/update-request.js");
 
-/* eslint-disable global-require  */
 const app = express();
 
 /* eslint-disable global-require */
