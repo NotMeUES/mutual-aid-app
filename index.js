@@ -15,6 +15,7 @@ const {
 /* eslint-disable global-require  */
 const app = express();
 
+/* eslint-disable global-require */
 if (!process.env.AIRTABLE_BASE || !process.env.AIRTABLE_KEY) {
   console.warn("An airtable key is missing. Something will probably break :/");
 }
