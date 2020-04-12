@@ -5,10 +5,7 @@ import { Helmet } from "react-helmet";
 export default function Layout({ children }) {
   return (
     <>
-      <Helmet
-        titleTemplate="Crown Heights Mutual Aid | %s"
-        defaultTitle="Crown Heights Mutual Aid"
-      >
+      <Helmet titleTemplate="Not Me, UES | %s" defaultTitle="Not Me, UES">
         <html lang="en" />
         <meta charSet="utf-8" />
         {/* <script async defer src="https://buttons.github.io/buttons.js" /> */}

@@ -163,15 +163,6 @@ export default function NeighborhoodFinder() {
             />
             <TextField
               disabled
-              id="neighborhood"
-              label="Neighborhood"
-              value={data.neighborhoodName || "Unavailable"}
-              helperText="If both this and zone are unavailable, double check the map: https://bit.ly/2UrZPkA"
-              variant="outlined"
-              className={classes.field}
-            />
-            <TextField
-              disabled
               id="zone"
               label="Volunteer Zone"
               value={data.quadrant || "Unavailable"}
