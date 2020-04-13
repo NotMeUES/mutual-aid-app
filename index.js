@@ -48,12 +48,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 if (process.env.TWILIO_AUTH_TOKEN) {
   app.post(
     "/twilio/call-handler",
-    twilio.webhook(),
+    twilio.webhook({ protocol: "https" }),
     require("./src/twilio/callHandler.js")
   );
   app.post(
     "/twilio/call-handler-callback",
-    twilio.webhook(),
+    twilio.webhook({ protocol: "https" }),
     require("./src/twilio/callHandlerCallback.js")
   );
 } else {
