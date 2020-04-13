@@ -1,6 +1,7 @@
 const twilio = require("twilio");
 
 module.exports = (req, res) => {
+  console.log(req.body);
   const response = new twilio.twiml.VoiceResponse();
   response.play(
     {
