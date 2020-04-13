@@ -88,7 +88,7 @@ exports.findRequestByPhone = async phone => {
       })
       .firstPage();
     if (records.length === 0) {
-      return [null, "No requests found with that phone."];
+      return [null, "No existing request with that phone"];
     }
     const record = records[0];
     return [record, null];

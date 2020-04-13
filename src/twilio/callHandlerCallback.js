@@ -2,7 +2,6 @@ const twilio = require("twilio");
 const { createRequest, findRequestByPhone } = require("../airtable");
 
 module.exports = async (req, res) => {
-  console.log(req.body);
   const twilReq = req.body;
 
   const twilioSid = twilReq.CallSid;
@@ -10,8 +9,8 @@ module.exports = async (req, res) => {
   const phone = twilReq.From;
   let status = "";
 
-  const [_request, err] = await findRequestByPhone(phone);
-  if (err) {
+  const [request, _err] = await findRequestByPhone(phone);
+  if (request) {
     status = "Duplicate";
   }
 
