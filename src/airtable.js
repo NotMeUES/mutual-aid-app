@@ -31,8 +31,9 @@ exports.createRequest = async request => {
       "External Id": request.externalId || "",
       "Cross Street #1": request.crossStreets || "",
       "Email Address": request.email || "",
+      "Twilio Call Sid": request.twilioSid || "",
       "Time Sensitivity": request.urgency || "",
-      Status: "Dispatch Needed"
+      Status: request.status || "Dispatch Needed"
     });
     return [record, null];
   } catch (e) {
@@ -74,6 +75,25 @@ exports.findOpenRequests = async () => {
     return [requests.filter(notInSlack), null];
   } catch (e) {
     return [[], `Error while looking up open requests: ${e}`];
+  }
+};
+
+exports.findRequestByPhone = async phone => {
+  try {
+    const records = await base("Requests")
+      .select({
+        maxRecords: 1,
+        fields: ["Phone"],
+        filterByFormula: `({Phone} = '${phone}')`
+      })
+      .firstPage();
+    if (records.length === 0) {
+      return [null, "No requests found with that phone."];
+    }
+    const record = records[0];
+    return [record, null];
+  } catch (e) {
+    return [null, `Error while finding request: ${e}`];
   }
 };
 
