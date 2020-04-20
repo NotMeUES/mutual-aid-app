@@ -49,6 +49,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 if (process.env.TWILIO_AUTH_TOKEN) {
   app.post(
+    "/twilio/language-handler",
+    twilio.webhook({ protocol: "https" }),
+    require("./src/twilio/languageHandler.js")
+  );
+  app.post(
     "/twilio/call-handler",
     twilio.webhook({ protocol: "https" }),
     require("./src/twilio/callHandler.js")

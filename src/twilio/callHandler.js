@@ -1,17 +1,22 @@
 const twilio = require("twilio");
 
 module.exports = (req, res) => {
+  const twilReq = req.body;
   const response = new twilio.twiml.VoiceResponse();
-  if (process.env.TWILIO_VOICEMAIL_URL) {
-    response.play(process.env.TWILIO_VOICEMAIL_URL);
-  } else {
-    response.say(
-      { voice: "alice", language: "en-US" },
-      "Thanks for calling our mutual aid group. Please tell us what you need," +
-        " and then a neighbor volunteer will contact you soon. Stay safe!"
-    );
+
+  switch (twilReq.Digits) {
+    case "2":
+      response.play(
+        "https://bazaar-impala-3802.twil.io/assets/voicemail-spanish.mp3"
+      );
+      break;
+    default:
+      // to English
+      response.play("https://bazaar-impala-3802.twil.io/assets/voicemail.mp3");
+      break;
   }
 
+  response.pause();
   response.record({
     action: "/twilio/call-handler-callback"
   });
