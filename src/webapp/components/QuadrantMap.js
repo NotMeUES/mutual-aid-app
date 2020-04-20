@@ -6,7 +6,7 @@ import ReactMapboxGl, {
   ZoomControl
 } from "react-mapbox-gl";
 import { LngLat, LngLatBounds } from "mapbox-gl";
-import quadrantsGeoJSON from "../../assets/ues.json";
+import quadrantsGeoJSON from "../../lib/assets/ues.json";
 import { findBounds } from "../helpers/mapbox-coordinates";
 
 // get all coords in quadrantsGeoJSON to find bounds
@@ -19,10 +19,7 @@ const BOUNDS = findBounds(
   }, [])
 );
 
-const CENTER_COORD = new LngLatBounds(
-  BOUNDS[0],
-  BOUNDS[1]
-).getCenter();
+const CENTER_COORD = new LngLatBounds(BOUNDS[0], BOUNDS[1]).getCenter();
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const MissingMap = () => (
@@ -43,9 +40,7 @@ const MapboxMap = MAPBOX_TOKEN
 
 const QuadrantMap = ({ location }) => {
   const lnglat = location && new LngLat(location.lng, location.lat);
-  const bounds = lnglat
-    ? findBounds([...BOUNDS, lnglat])
-    : BOUNDS;
+  const bounds = lnglat ? findBounds([...BOUNDS, lnglat]) : BOUNDS;
 
   return (
     <MapboxMap // eslint-disable-next-line react/style-prop-object

@@ -1,3 +1,4 @@
+require("module-alias/register");
 require("dotenv").config();
 
 const path = require("path");
@@ -6,6 +7,7 @@ const twilio = require("twilio");
 const basicAuth = require("express-basic-auth");
 const bodyParser = require("body-parser");
 const airtableWorker = require("./src/workers/airtable-sync/worker");
+const airtablePaymentsWorker = require("./src/workers/airtable-sync/paymentWorker");
 const { addressHandler } = require("./src/api/geo.js");
 const { nycmaIntakeHandler } = require("./src/api/authed/intake/manyc.js");
 const { nycmaOuttakeHandler } = require("./src/api/authed/outtake/manyc.js");
@@ -40,6 +42,25 @@ if (process.env.SLACK_BOT_TOKEN && process.env.SLACK_SIGNING_SECRET) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// ==================================================================
+// Twilio Webhooks
+// ==================================================================
+
+if (process.env.TWILIO_AUTH_TOKEN) {
+  app.post(
+    "/twilio/call-handler",
+    twilio.webhook({ protocol: "https" }),
+    require("./src/twilio/callHandler.js")
+  );
+  app.post(
+    "/twilio/call-handler-callback",
+    twilio.webhook({ protocol: "https" }),
+    require("./src/twilio/callHandlerCallback.js")
+  );
+} else {
+  console.log("TWILIO_AUTH_TOKEN not set. Twilio callbacks not enabled.");
+}
 
 // ==================================================================
 // Twilio Webhooks
@@ -126,6 +147,9 @@ app.get("*", (req, res) => {
 const airtableIntervalMs = parseInt(process.env.AIRTABLE_SYNC || 0);
 if (airtableIntervalMs > 0) {
   airtableWorker(airtableIntervalMs);
+  if (process.env.AIRTABLE_PAYMENTS_BASE) {
+    airtablePaymentsWorker(airtableIntervalMs);
+  }
 }
 
 // ==================================================================

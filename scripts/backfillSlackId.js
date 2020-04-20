@@ -1,6 +1,7 @@
 const _ = require("lodash");
-const { airbase, UPDATE_BATCH_SIZE } = require("../src/airtable");
-const slackapi = require("../src/slackapi");
+const slackapi = require("~slack/webApi");
+const { airbase } = require("~airtable/bases");
+const { UPDATE_BATCH_SIZE } = require("~airtable/constants");
 const { wait } = require("./utils");
 
 /* eslint-disable no-await-in-loop, no-loop-func */
@@ -17,7 +18,7 @@ const { wait } = require("./utils");
     console.log("Retrieved", record.id);
     try {
       const result = await slackapi.users.lookupByEmail({
-        email: record.get("volunteer_email")
+        email: record.get("volunteer_email").toLowerCase()
       });
       const slackId = result.user.id;
       console.log(`adding slack id: ${slackId}`);
@@ -30,6 +31,7 @@ const { wait } = require("./utils");
       });
     } catch (e) {
       console.log(`Error looking up user: ${e}`);
+      await wait(300);
     }
   }
 

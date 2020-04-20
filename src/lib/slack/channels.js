@@ -1,5 +1,7 @@
+// Helpers related to Slack channels
+
 const { find } = require("lodash");
-const slackapi = require("../../slackapi");
+const slackapi = require("~slack/webApi");
 
 let channelCache = [];
 
@@ -13,7 +15,11 @@ module.exports.allChannels = async () => {
   let cursor = null;
   const channels = [];
   do {
-    const response = await slackapi.channels.list({ cursor }); // eslint-disable-line
+    /* eslint-disable-next-line no-await-in-loop */
+    const response = await slackapi.conversations.list({
+      types: "public_channel,private_channel",
+      cursor
+    });
     cursor = response.response_metadata.next_cursor;
     channels.push(...response.channels);
   } while (cursor);
@@ -30,7 +36,7 @@ module.exports.findChannelByName = async name => {
 };
 
 /**
- * Finds a channel by its #name. Returns undefined if no element matches
+ * Adds the current bot to the given channel
  */
 module.exports.addBotToChannel = async channelId => {
   try {
@@ -45,4 +51,26 @@ module.exports.addBotToChannel = async channelId => {
   } catch (e) {
     return [null, `Error adding bot to channel: ${channelId}`];
   }
+};
+
+/**
+ * Returns the user ids of the members of the given channel
+ */
+module.exports.listMembers = async channelId => {
+  let cursor = null;
+  const members = [];
+  try {
+    do {
+      /* eslint-disable-next-line no-await-in-loop */
+      const response = await slackapi.conversations.members({
+        channel: channelId,
+        cursor
+      });
+      cursor = response.response_metadata.next_cursor;
+      members.push(...response.members);
+    } while (cursor);
+  } catch (e) {
+    return [[], e];
+  }
+  return [members, null];
 };

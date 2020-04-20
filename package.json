@@ -8,17 +8,23 @@
     "local:express": "NODE_ENV=dev node index.js",
     "local:slack": "NODE_ENV=dev ngrok http 5000",
     "local:react": "NODE_ENV=dev react-scripts start",
-    "local:airtable-sync": "NODE_ENV=dev node ./src/workers/airtable-sync/worker.js",
-    "local:script": "DOTENV_CONFIG_PATH=./.env node -r dotenv/config",
+    "local:airtable-sync": "NODE_ENV=dev node -r module-alias/register ./src/workers/airtable-sync/worker.js",
+    "local:script": "DOTENV_CONFIG_PATH=./.env node -r module-alias/register -r dotenv/config",
     "prod:express": "node index.js",
     "prod:react": "react-scripts build",
-    "prod:script": "DOTENV_CONFIG_PATH=./.env.prod node -r dotenv/config",
+    "prod:script": "DOTENV_CONFIG_PATH=./.env.prod node -r module-alias/register -r dotenv/config",
     "build": "npm run prod:react",
     "start": "npm run prod:express"
   },
   "main": "index.js",
   "engines": {
     "node": "12.16.x"
+  },
+  "_moduleAliases": {
+    "~airtable": "src/lib/airtable",
+    "~slack": "src/lib/slack",
+    "~assets": "src/lib/assets",
+    "~constants": "src/lib/constants.js"
   },
   "proxy": "http://localhost:5000",
   "dependencies": {
@@ -43,6 +49,7 @@
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.9.1",
     "mocha": "^7.1.1",
+    "module-alias": "2.2.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.1",
@@ -58,6 +65,7 @@
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.5.0",
     "eslint-config-react-app": "^5.0.2",
+    "eslint-import-resolver-alias": "1.1.2",
     "eslint-import-resolver-custom-alias": "^1.2.0",
     "eslint-plugin-flowtype": "4.7.0",
     "eslint-plugin-import": "2.20.2",

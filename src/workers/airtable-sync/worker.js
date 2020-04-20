@@ -1,8 +1,11 @@
 const ChangeDetector = require("airtable-change-detector");
+const {
+  table: requestsTable,
+  SENSITIVE_FIELDS: sensitiveRequestFields
+} = require("~airtable/tables/requests");
 const updateMessageContent = require("./actions/updateMessageContent");
-const { SENSITIVE_FIELDS, airbase } = require("../../airtable");
 
-const defaultInterval = 5000;
+const defaultInterval = 10000;
 
 function startWorker(interval) {
   let pollInterval = interval;
@@ -12,10 +15,14 @@ function startWorker(interval) {
     );
     pollInterval = defaultInterval;
   }
-  const requestChanges = new ChangeDetector(airbase("Requests"), {
+  const sharedDetectorOptions = {
     writeDelayMs: 100,
-    lastProcessedFieldName: "Last Processed",
-    sensitiveFields: SENSITIVE_FIELDS
+    lastProcessedFieldName: "Last Processed"
+  };
+
+  const requestChanges = new ChangeDetector(requestsTable, {
+    senstiveFields: sensitiveRequestFields,
+    ...sharedDetectorOptions
   });
   requestChanges.pollWithInterval(
     "airtable-sync.requests",
@@ -28,7 +35,6 @@ function startWorker(interval) {
       console.info(`Found ${recordsChanged.length} changes in Requests`);
       const promises = [];
       recordsChanged.forEach(record => {
-        // TODO: use this a few more times from different contexts and think about refactoring the api
         if (record.didChange(statusFieldName)) {
           const status = record.get(statusFieldName);
           const newStatus = record.getPrior(statusFieldName);

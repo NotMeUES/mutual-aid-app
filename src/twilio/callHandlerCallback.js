@@ -1,5 +1,8 @@
 const twilio = require("twilio");
-const { createRequest, findRequestByPhone } = require("../airtable");
+const {
+  createRequest,
+  findRequestByPhone
+} = require("~airtable/tables/requests");
 
 module.exports = async (req, res) => {
   const twilReq = req.body;
