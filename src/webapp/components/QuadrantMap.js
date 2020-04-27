@@ -22,15 +22,18 @@ const BOUNDS = findBounds(
 const CENTER_COORD = new LngLatBounds(BOUNDS[0], BOUNDS[1]).getCenter();
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
-const MissingMap = () => (
-  <div>
-    Mapbox token is missing. This means that the map cannot be displayed, but
-    should not affect the functionality of the page. Please inform&nbsp;
-    <a href="https://crownheightsmutualaid.slack.com/archives/C010AUQ6DFD">
-      #tech.
-    </a>
-  </div>
-);
+const MissingMap = () => {
+  const { t: str } = useTranslation();
+  return (
+    <div>
+      {str("webapp:zoneFinder.map.error")}
+      &nbsp;
+      <a href={str("webapp:slack.techChannelUrl")}>
+        {str("webapp:slack.techChannel")}
+      </a>
+    </div>
+  );
+};
 
 const MapboxMap = MAPBOX_TOKEN
   ? ReactMapboxGl({
