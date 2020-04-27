@@ -6,6 +6,7 @@ import ReactMapboxGl, {
   ZoomControl
 } from "react-mapbox-gl";
 import { LngLat, LngLatBounds } from "mapbox-gl";
+import { useTranslation } from "react-i18next";
 import quadrantsGeoJSON from "../../lib/assets/ues.json";
 import { findBounds } from "../helpers/mapbox-coordinates";
 

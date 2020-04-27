@@ -188,11 +188,14 @@ const fields = (exports.fields = {
   email: "Email Address",
   neighborhoodArea: "Neighborhood Area (See Map)",
   neighborhoodArea_options: {
-    ne: "NE",
-    nw: "NW",
-    se: "SE",
-    sw: "SW",
-    notCrownHeights: "Other - not Crown Heights"
+    uws: "Upper West Side",
+    ues: "Upper East Side",
+    eastHarlem: "East Harlem",
+    centralHarlem: "Central Harlem",
+    midtown: "Midtown",
+    morningside: "Morningside Heights",
+    hamilton: "Hamilton Heights",
+    notCrownHeights: "Other - not Upper Manhattan"
   },
   languages: "Languages",
   languages_options: {
