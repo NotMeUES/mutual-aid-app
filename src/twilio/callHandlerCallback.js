@@ -6,6 +6,7 @@ const {
 const { str } = require("~strings/i18nextWrappers");
 
 module.exports = async (req, res) => {
+  const { language } = req.query;
   const twilReq = req.body;
 
   const twilioSid = twilReq.CallSid;
@@ -23,6 +24,7 @@ module.exports = async (req, res) => {
     twilioSid,
     phone,
     status,
+    languages: [language],
     source: "voice"
   };
   const [record, e] = await createRequest(newRequest);
@@ -33,14 +35,7 @@ module.exports = async (req, res) => {
   // This most likely won't be played. People usually hang up after voicemail.
   const response = new twilio.twiml.VoiceResponse();
   if (e) {
-    console.log(`Twilio callback error: ${e}`);
-    response.say(
-      { voice: "alice", language: "en-US" },
-      str(
-        "twilio:goodbye.error",
-        "Sorry there was an error on our end. Please call back in a minute."
-      )
-    );
+    throw new Error(e);
   } else {
     response.say(
       { voice: "alice", language: "en-US" },

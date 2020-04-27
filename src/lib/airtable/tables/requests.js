@@ -23,6 +23,9 @@ exports.createRequest = async request => {
       [fields.externalId]: request.externalId || "",
       [fields.crossStreetFirst]: request.crossStreets || "",
       [fields.email]: request.email || "",
+      [fields.languages]: request.languages || [
+        fields.languages_options.english
+      ],
       [fields.timeSensitivity]: request.urgency || "",
       [fields.status]: request.status || fields.status_options.dispatchNeeded
     });
