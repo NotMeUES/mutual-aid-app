@@ -15,6 +15,9 @@ const { nycmaOuttakeHandler } = require("./src/api/authed/outtake/manyc.js");
 const {
   neighborhoodFinderUpdateRequestHandler
 } = require("./src/api/neighborhood-finder/update-request.js");
+const {
+  deliveryNeededRequestHandler
+} = require("./src/api/delivery-needed/index.js");
 
 const app = express();
 
@@ -102,6 +105,8 @@ app.post(
   neighborhoodFinderUpdateRequestHandler
 );
 
+app.get("/api/delivery-needed/requests.json", deliveryNeededRequestHandler);
+
 // ==================================================================
 // API Routes (w/ Basic Auth)
 // ==================================================================
@@ -158,7 +163,7 @@ const airtableIntervalMs = parseInt(process.env.AIRTABLE_SYNC || 0);
 if (airtableIntervalMs > 0) {
   airtableWorker(airtableIntervalMs);
   if (process.env.AIRTABLE_PAYMENTS_BASE) {
-    airtablePaymentsWorker(airtableIntervalMs);
+    airtablePaymentsWorker(airtableIntervalMs + 2000); // Stagger polling to avoid rate limit
   }
 }
 
